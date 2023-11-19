@@ -16,6 +16,7 @@ chrome_settings.add_experimental_option("detach", True)
 
 driver = webdriver.Chrome(chrome_settings)
 driver.get(URL)
+driver.maximize_window()
 
 time.sleep(2)
 
@@ -45,34 +46,29 @@ driver.switch_to.window(base_window)
 
 time.sleep(5)
 
-locationPermission_btn = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/main/div[1]/div/div/div[3]/button[1]/div[2]/div[2]')))
-locationPermission_btn.click()
+locationPermission_btn = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/main/div[1]/div/div/div[3]/button[1]/div[2]/div[2]'))).click()
 
 time.sleep(1)
 
-notificationsPermission_btn = wait.until(EC.presence_of_element_located((By.XPATH,'/html/body/div[2]/main/div[1]/div/div/div[3]/button[1]/div[2]/div[2]')))
-notificationsPermission_btn.click()
+notificationsPermission_btn = wait.until(EC.presence_of_element_located((By.XPATH,'/html/body/div[2]/main/div[1]/div/div/div[3]/button[1]/div[2]/div[2]'))).click()
 
 time.sleep(1)
 
-cookies = wait.until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div/div[2]/div/div/div[1]/div[1]/button/div[2]/div[2]')))
-cookies.click()
+cookies = wait.until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div/div[2]/div/div/div[1]/div[1]/button/div[2]/div[2]'))).click()
 
+actions = ActionChains(driver)
 for swipes in range(100):
     time.sleep(1)
 
     try:
-        like_btn = wait.until(EC.presence_of_element_located((By.XPATH, '#s-547617529 > div > div.App__body.H\(100\%\).Pos\(r\).Z\(0\) > div > div > main > div > div > div.recsCardboard__cardsContainer.H\(100\%\).Pos\(r\).Z\(1\) > div > div.Pos\(a\).B\(0\).Iso\(i\).W\(100\%\).Start\(0\).End\(0\) > div > div.Mx\(a\).Fxs\(0\).Sq\(70px\).Sq\(60px\)--s.Bd.Bdrs\(50\%\).Bdc\(\$c-ds-border-gamepad-like-default\) > button')))
-        actions = ActionChains(driver)
-        actions.move_to_element(like_btn).click().perform()
+        actions.send_keys(Keys.ARROW_RIGHT)
+        actions.perform()
 
     except ElementClickInterceptedException:
         try:
-            match_popup = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".itsAMatch a")))
-            match_popup.click()
+            match_popup = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".itsAMatch a"))).click()
         except:
-            add_to_home_btn = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/main/div/div[2]/button[2]/div[2]/div[2]")))
-            add_to_home_btn.click()
+            add_to_home_btn = wait.until(EC.presence_of_element_located((By.XPATH, '//button[contains(@class, "c1p6lbu0 D(b) Mx(a)")]'))).click()
     except NoSuchElementException:
         time.sleep(3)
-        like_btn.click()
+        actions.perform()
